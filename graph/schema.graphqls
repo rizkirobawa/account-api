@@ -1,0 +1,34 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+directive @goModel(model: String, models: [String!]) on OBJECT | INPUT_OBJECT | SCALAR | ENUM | INTERFACE | UNION
+directive @goField(forceResolver: Boolean, name: String) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
+type Mutation {
+  createAccount(input: CreateAccountInput!): Account!
+}
+
+type Query {
+  accounts: [Account!]!
+  account(id: ID!): Account
+}
+
+type Account {
+  id: ID!,
+  email: String!,
+  balance: Int!
+  transactions: [Transaction!]! @goField(forceResolver: true)
+}
+
+type Transaction {
+  id: ID!
+  amount: Int!
+  type: String!
+}
+
+input CreateAccountInput {
+  id: String!,
+  email: String!
+}
+
