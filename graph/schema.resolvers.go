@@ -6,7 +6,9 @@ package graph
 
 import (
 	"account-api/graph/model"
+	"account-api/internal/repository"
 	"context"
+	"errors"
 )
 
 // Transactions is the resolver for the transactions field.
@@ -68,6 +70,10 @@ func (r *queryResolver) Accounts(ctx context.Context) ([]*model.Account, error) 
 func (r *queryResolver) Account(ctx context.Context, id string) (*model.Account, error) {
 	acc, err := r.AccountService.GetAccount(ctx, id)
 	if err != nil {
+		// field account bertipe nullable: akun tidak ada = null, bukan error
+		if errors.Is(err, repository.ErrNotFound) {
+			return nil, nil
+		}
 		return nil, err
 	}
 

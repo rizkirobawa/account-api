@@ -20,7 +20,7 @@ func NewAccountHandler(service *service.AccountService) *AccountHandler {
 
 type createAccountRequst struct {
 	ID    string `json:"id"`
-	Email string `json:email"`
+	Email string `json:"email"`
 }
 
 func (h *AccountHandler) Create(w http.ResponseWriter, r *http.Request) {

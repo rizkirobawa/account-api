@@ -5,9 +5,17 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+
+	"github.com/go-sql-driver/mysql"
 )
 
-var ErrNotFound = errors.New("account not found")
+var (
+	ErrNotFound  = errors.New("account not found")
+	ErrDuplicate = errors.New("account already exists")
+)
+
+// mysqlErrDuplicateEntry adalah kode error MySQL untuk "Duplicate entry".
+const mysqlErrDuplicateEntry = 1062
 
 type AccountRepository struct {
 	db *sql.DB
@@ -21,6 +29,11 @@ func (r *AccountRepository) Create(ctx context.Context, acc model.Account) error
 	query := "INSERT INTO accounts (id, email, balance) VALUES (?, ?, ?)"
 
 	_, err := r.db.ExecContext(ctx, query, acc.ID, acc.Email, acc.Balance)
+
+	var mysqlErr *mysql.MySQLError
+	if errors.As(err, &mysqlErr) && mysqlErr.Number == mysqlErrDuplicateEntry {
+		return ErrDuplicate
+	}
 	return err
 }
 

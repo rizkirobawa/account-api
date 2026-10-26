@@ -1,0 +1,7 @@
+/server
+/rest
+*.exe
+.env
+.env.*
+.vscode/
+.idea/

@@ -69,6 +69,7 @@ func (r *TransactionRepository) FindByAccountIDs(ctx context.Context, accountIDs
 		if err := rows.Scan(&tx.ID, &tx.AccountID, &tx.Amount, &tx.Type); err != nil {
 			return nil, err
 		}
+		transactions = append(transactions, tx)
 	}
 
 	if err := rows.Err(); err != nil {

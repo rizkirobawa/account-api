@@ -12,7 +12,7 @@ import (
 type ctxKey string
 
 // key untuk nyimpen loader di context request
-const loadersKey = "dataloaders"
+const loadersKey ctxKey = "dataloaders"
 
 // Loaders adalah kumpulan semua loader yang tersedia dalam satu request
 type Loaders struct {
