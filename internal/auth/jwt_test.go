@@ -12,7 +12,7 @@ func TestGenerateAndVerifyToken(t *testing.T) {
 	if err != nil {
 		t.Fatalf("VerifyToken error: %v", err)
 	}
-	if claims.AccountID != "salah" {
+	if claims.AccountID != "acc-1" {
 		t.Errorf("AccountID = %q, want %q", claims.AccountID, "acc-1")
 	}
 }
